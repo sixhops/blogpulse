@@ -9,10 +9,21 @@ router.get('/', function(req, res) {
 });
 
 router.get('/:id', function(req, res) {
+  db.post.findByPk(parseInt(req.params.id), {include: [db.author, db.comment, db.tag]})
+  .then(function(post) {
+    res.render('posts/show', {post});
+  })
+  .catch(function(err) {
+    console.log(err);
+    res.send("Error");
+  })
+});
+
+router.post('/:id/comments', function(req, res) {
   db.post.findByPk(parseInt(req.params.id))
     .then(function(post) {
-      post.getAuthor().then(function(author) {
-        res.render('posts/show', {post, author});
+      post.createComment(req.body).then(function(comment) {
+        res.redirect(`/posts/${req.params.id}`)
       });
     });
 });

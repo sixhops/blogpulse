@@ -12,5 +12,6 @@ app.use(ejsLayouts);
 
 app.use('/authors', require('./routes/authors'));
 app.use('/posts', require('./routes/posts'));
+app.use('/tags', require('./routes/tags'));
 
 app.listen(3000);
